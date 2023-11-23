@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,15 +66,10 @@ namespace pensioner2
 
             if (dailyEventsReader.Read())
             {
-                string var1 = dailyEventsReader["var1"].ToString();
-                string var2 = dailyEventsReader["var2"].ToString();
-                string var3 = dailyEventsReader["var3"].ToString();
-                string var4 = dailyEventsReader["var4"].ToString();
-
-                label1.Text = var1;
-                label2.Text = var2;
-                label3.Text = var3;
-                label4.Text = var4;
+                label1.Text = dailyEventsReader["var1"].ToString(); ;
+                label2.Text = dailyEventsReader["var2"].ToString(); ;
+                label3.Text = dailyEventsReader["var3"].ToString(); ;
+                label4.Text = dailyEventsReader["var4"].ToString(); ;
 
                 choice1 = int.Parse(dailyEventsReader["var1event"].ToString());
                 choice2 = int.Parse(dailyEventsReader["var2event"].ToString());
@@ -83,7 +79,11 @@ namespace pensioner2
                 dailyEventsReader.Close();
             }
         }
-
+        void ImageSet(string imageName) //устанавливает картинки
+        {
+            string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pensioner", "pensioner", "images");
+            this.BackgroundImage = System.Drawing.Image.FromFile(Path.Combine(directoryPath, imageName + ".png"));
+        }
 
         void Daily_Events(int chosen)
         {
@@ -93,9 +93,16 @@ namespace pensioner2
                 {
                     connection.Open();
 
-                    string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@chosenNumber", chosen);
+                    string eventsQuery = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = {chosen}";
+                    MySqlCommand command = new MySqlCommand(eventsQuery, connection);
+
+                    using (MySqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            richTextBox1.Text = dataReader["text_pen"].ToString();  
+                        }
+                    }
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -104,7 +111,8 @@ namespace pensioner2
                             string textPen = reader["text_pen"].ToString();
                             GlobalData.TextForChoice = textPen;
                             GlobalData.PointsOfHappiness += 5;
-
+                            string imageName = reader["pictures"].ToString();
+                            GlobalData.Picture = imageName;
                             this.Close();
                         }
                     }
@@ -163,16 +171,16 @@ namespace pensioner2
             }
         }
 
-        void HomeWalking()
+        void HomeWalking() //хождение по дому
         {
-            int homeRoom = GlobalData.HomeRoom; // Значение из GlobalData.HomeRoom
+            int homeRoom = GlobalData.HomeRoom;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
                 string query = "SELECT * FROM home WHERE locations = @HomeRoom";
-                //MessageBox.Show(Convert.ToString(homeRoom));
+               
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@HomeRoom", GlobalData.HomeRoom);
@@ -196,7 +204,7 @@ namespace pensioner2
             }
         } 
 
-        int GetLastDigitFromPictureBoxName(PictureBox pictureB)
+        int GetLastDigitFromPictureBoxName(PictureBox pictureB) //определяет, что было выбрано
         {
             string name = pictureB.Name;
             string lastCharacter = name.Substring(name.Length - 1);

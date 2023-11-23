@@ -13,8 +13,9 @@ namespace pensioner
         public static int PointsOfHappiness { get; set; } = 70;
         public static int HomeRoom { get; set; } = 4;
 
+        public static string Picture { get; set; } = "Menu";
+        public static bool Batery { get; set;} = false;
 
-       
     }
     
 }

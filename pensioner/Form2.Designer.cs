@@ -66,7 +66,7 @@
             // 
             // cho3
             // 
-            this.cho3.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cho3.BackColor = System.Drawing.Color.Transparent;
             this.cho3.Location = new System.Drawing.Point(33, 849);
             this.cho3.Name = "cho3";
             this.cho3.Size = new System.Drawing.Size(964, 77);
@@ -92,7 +92,7 @@
             // 
             // cho4
             // 
-            this.cho4.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cho4.BackColor = System.Drawing.Color.Transparent;
             this.cho4.Location = new System.Drawing.Point(33, 956);
             this.cho4.Name = "cho4";
             this.cho4.Size = new System.Drawing.Size(964, 77);
@@ -101,7 +101,7 @@
             // 
             // cho2
             // 
-            this.cho2.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cho2.BackColor = System.Drawing.Color.Transparent;
             this.cho2.Location = new System.Drawing.Point(33, 743);
             this.cho2.Name = "cho2";
             this.cho2.Size = new System.Drawing.Size(964, 77);
@@ -110,7 +110,7 @@
             // 
             // cho1
             // 
-            this.cho1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cho1.BackColor = System.Drawing.Color.Transparent;
             this.cho1.Location = new System.Drawing.Point(33, 644);
             this.cho1.Name = "cho1";
             this.cho1.Size = new System.Drawing.Size(964, 77);
@@ -124,7 +124,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label1.Location = new System.Drawing.Point(59, 664);
+            this.label1.Location = new System.Drawing.Point(59, 661);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 46);
             this.label1.TabIndex = 0;
@@ -201,6 +201,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = global::pensioner.Properties.Resources.зал;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1902, 1055);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox2);
@@ -216,6 +220,7 @@
             this.Controls.Add(this.cho3);
             this.Controls.Add(this.cho1);
             this.Controls.Add(this.pictureBox1);
+            this.ForeColor = System.Drawing.Color.Transparent;
             this.Name = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();

@@ -28,7 +28,7 @@ namespace pensioner2
         {
             InitializeComponent();
             SetFullScreen();
-            GlobalData.TextForChoice = "Добро пожаловать в смулятор пенсионера!";
+            GlobalData.TextForChoice = "Добро пожаловать в симулятор пенсионера!";
         }
 
         private void SetFullScreen()
@@ -59,36 +59,41 @@ namespace pensioner2
                 string query;
                 MySqlCommand command;
                 MySqlDataReader reader;
-
-                if (pointsOfHappiness < 50)
+                if(GlobalData.Batery)
                 {
-                    query = "SELECT text_pen FROM events WHERE number = 711";
-                    command = new MySqlCommand(query, connection);
-                    reader = command.ExecuteReader();
+                    
+                }
+                else if (pointsOfHappiness < 50) //соединить две концовки
+                {
+                    string eventsQuery = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = 711";
+                    MySqlCommand eventsCommand = new MySqlCommand(eventsQuery, connection);
 
-                    if (reader.Read())
+                    using (MySqlDataReader dataReader = eventsCommand.ExecuteReader())
                     {
-                        string textPen = reader["text_pen"].ToString();
-                        richTextBox1.Text = textPen;
-                    }
+                        if (dataReader.Read())
+                        {
+                            richTextBox1.Text = dataReader["text_pen"].ToString();
+                            string imageName = dataReader["pictures"].ToString();
 
-                    reader.Close();
+                            ImageSet(imageName);
+                        }
+                    }
                 }
                 else if (pointsOfHappiness >= 50 && pointsOfHappiness <= 75)
                 {
-                    query = "SELECT text_pen FROM events WHERE number = 712";
-                    command = new MySqlCommand(query, connection);
-                    reader = command.ExecuteReader();
+                    string eventsQuery = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = 712";
+                    MySqlCommand eventsCommand = new MySqlCommand(eventsQuery, connection);
 
-                    if (reader.Read())
+                    using (MySqlDataReader dataReader = eventsCommand.ExecuteReader())
                     {
-                        string textPen = reader["text_pen"].ToString();
- 
+                        if (dataReader.Read())
+                        {
+                            richTextBox1.Text = dataReader["text_pen"].ToString();
+                            string imageName = dataReader["pictures"].ToString();
 
-                        richTextBox1.Text = textPen;
+                            ImageSet(imageName);
+                        }
                     }
-
-                    reader.Close();
                 }
                 else if (pointsOfHappiness > 75)
                 {
@@ -131,7 +136,7 @@ namespace pensioner2
 
         private void pictureBox7_Click(object sender, EventArgs e)
         {
-            if (GlobalData.CurrentNumber == 630)
+            if (GlobalData.CurrentNumber == 630||GlobalData.Batery)
             {
                 EndGame();
             }
@@ -167,6 +172,7 @@ namespace pensioner2
                                 {
                                     richTextBox1.Text = dataReader["text_pen"].ToString();
                                     string imageName = dataReader["pictures"].ToString();
+                                    
                                     ImageSet(imageName);
                                 }
                             }
@@ -189,6 +195,8 @@ namespace pensioner2
         private void Form3_Activated(object sender, EventArgs e)
         {
             richTextBox1.Text = GlobalData.TextForChoice;
+            ImageSet(GlobalData.Picture);
+            if (GlobalData.Picture == "батареи") GlobalData.Batery = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
