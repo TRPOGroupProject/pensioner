@@ -142,16 +142,18 @@ namespace pensioner2
             {
                 int lastDigit = GetLastDigitFromPictureBoxName(pictureBox);
                 int chosen = UsersChoice(lastDigit);
+                //MessageBox.Show(Convert.ToString(chosen));
                 if (chosen == 0||(chosen <= 4 && chosen >= 1)) 
                 {
                     GlobalData.PointsOfHappiness -= 10;
-                    
+
                     if (chosen <= 4 && chosen >= 1)
-                    {
+                    { 
                         GlobalData.HomeRoom = chosen;
-                        HomeWalking();
                     }
                     HomeWalking();
+
+
                 }
                 else
                 {
@@ -170,7 +172,7 @@ namespace pensioner2
                 connection.Open();
 
                 string query = "SELECT * FROM home WHERE locations = @HomeRoom";
-                // MessageBox.Show(Convert.ToString(homeRoom));
+                //MessageBox.Show(Convert.ToString(homeRoom));
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@HomeRoom", GlobalData.HomeRoom);
@@ -179,28 +181,20 @@ namespace pensioner2
                     {
                         if (reader.Read())
                         {
-                            // Получение значений полей и загрузка их в метки (labels)
-                            string var1 = reader.GetString("var1");
-                            string var2 = reader.GetString("var2");
-                            string var3 = reader.GetString("var3");
-                            string var4 = reader.GetString("var4");
+                            label1.Text = reader.GetString("var1");
+                            label2.Text = reader.GetString("var2");
+                            label3.Text = reader.GetString("var3");
+                            label4.Text = reader.GetString("var4");
 
-                            label1.Text = var1;
-                            label2.Text = var2;
-                            label3.Text = var3;
-                            label4.Text = var4;
-
-                            // Загрузка значений полей в глобальные целочисленные переменные (choi1, choi2, choi3, choi4)
                             choice1 = reader.GetInt32("var1event");
                             choice2 = reader.GetInt32("var2event");
                             choice3 = reader.GetInt32("var3event");
                             choice4 = reader.GetInt32("var4event");
-                        }          
+                        }         
                     }
                 }
             }
-        }
-           
+        } 
 
         int GetLastDigitFromPictureBoxName(PictureBox pictureB)
         {
