@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using pensioner;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,8 @@ namespace pensioner2
     {
         private MySqlConnection connection;
         private string connectionString = "server=localhost;port=3306;username=root;password=root;database=pensioner";
-        private int currentNumber = 1;
+        private int currentNumber;
+        
 
         public Form3()
         {
@@ -41,6 +43,8 @@ namespace pensioner2
         }
         private void pictureBox7_Click(object sender, EventArgs e)
         {
+           
+
             connection = new MySqlConnection(connectionString);
             connection.Open();
 
@@ -55,7 +59,7 @@ namespace pensioner2
             {
                 int number = Convert.ToInt32(reader["number"]);
                 int choice = Convert.ToInt32(reader["choice"]);
-
+                GlobalData.CurrentNumber = number;
                 reader.Close();
 
                 if (choice == 0)
@@ -76,12 +80,16 @@ namespace pensioner2
                     // работа с событиями
                     Form2 form2 = new Form2();
                     form2.Show();
+                    
                 }
             }
 
             connection.Close();
         }
     }
+
+
+
 
 
 
