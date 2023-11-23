@@ -17,15 +17,19 @@ namespace pensioner2
     {
         int choice1;
         int choice2;
-        int choice3;    
+        int choice3;
         int choice4;
-        private MySqlConnection connection;
+
         private string connectionString = "server=localhost;port=3306;username=root;password=root;database=pensioner";
 
         public Form2()
         {
             InitializeComponent();
             SetFullScreen();
+            cho1.Click += pictureBox2_Click;
+            cho2.Click += pictureBox2_Click;
+            cho3.Click += pictureBox2_Click;
+            cho4.Click += pictureBox2_Click;
         }
 
         private void SetFullScreen()
@@ -37,8 +41,6 @@ namespace pensioner2
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-           
-            
             this.Close();
         }
 
@@ -49,16 +51,16 @@ namespace pensioner2
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            
+            richTextBox1.Text ="Что бы сегодня сделать?";
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
 
             // Информация из таблицы daily_events
             string dailyEventsQuery = $"SELECT * FROM `daily_events` WHERE `number` = {GlobalData.CurrentNumber}";
-            MessageBox.Show(Convert.ToString(GlobalData.CurrentNumber));
+
             MySqlCommand dailyEventsCommand = new MySqlCommand(dailyEventsQuery, connection);
             MySqlDataReader dailyEventsReader = dailyEventsCommand.ExecuteReader();
-        
+
             if (dailyEventsReader.Read())
             {
 
@@ -67,11 +69,11 @@ namespace pensioner2
                 string var2 = dailyEventsReader["var2"].ToString();
                 string var3 = dailyEventsReader["var3"].ToString();
                 string var4 = dailyEventsReader["var4"].ToString();
-        
-             
+
+
 
                 // Заполнение значений в соответствующих элементах управления
-    
+
                 label1.Text = var1;
                 label2.Text = var2;
                 label3.Text = var3;
@@ -87,5 +89,74 @@ namespace pensioner2
 
             }
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (sender is PictureBox pictureBox)
+            {
+                int lastDigit = GetLastDigitFromPictureBoxName(pictureBox);
+                int chosen = -1;
+
+                switch (lastDigit)
+                {
+                    case 1:
+                        chosen = choice1;
+                        break;
+                    case 2:
+                        chosen = choice2;
+                        break;
+                    case 3:
+                        chosen = choice3;
+                        break;
+                    case 4:
+                        chosen = choice4;
+                        break;
+                    default:
+                        break;
+                }
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
+                        MySqlCommand command = new MySqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@chosenNumber", chosen);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string textPen = reader["text_pen"].ToString();
+                                GlobalData.TextForChoice = textPen;
+                                this.Close();   
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при выполнении запроса: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        int GetLastDigitFromPictureBoxName(PictureBox pictureB)
+        {
+            string name = pictureB.Name;
+            string lastCharacter = name.Substring(name.Length - 1);
+            int lastDigit;
+            if (int.TryParse(lastCharacter, out lastDigit))
+            {
+                return lastDigit;
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }
+

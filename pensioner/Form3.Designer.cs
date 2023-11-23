@@ -42,7 +42,7 @@
             // pictureBox7
             // 
             this.pictureBox7.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox7.Location = new System.Drawing.Point(33, 868);
+            this.pictureBox7.Location = new System.Drawing.Point(33, 855);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(968, 77);
             this.pictureBox7.TabIndex = 13;
@@ -53,7 +53,7 @@
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox4.Image = global::pensioner.Properties.Resources.текст;
-            this.pictureBox4.Location = new System.Drawing.Point(33, 314);
+            this.pictureBox4.Location = new System.Drawing.Point(33, 223);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(968, 535);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -85,8 +85,9 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Enabled = false;
             this.richTextBox1.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox1.Location = new System.Drawing.Point(33, 314);
+            this.richTextBox1.Location = new System.Drawing.Point(33, 223);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(968, 535);
             this.richTextBox1.TabIndex = 14;

@@ -9,5 +9,6 @@ namespace pensioner
     internal class GlobalData
     {
         public static int CurrentNumber { get; set; }
+        public static string TextForChoice { get; set; }
     }
 }

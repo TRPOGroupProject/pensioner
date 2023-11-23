@@ -17,12 +17,14 @@ namespace pensioner2
         private MySqlConnection connection;
         private string connectionString = "server=localhost;port=3306;username=root;password=root;database=pensioner";
         private int currentNumber;
+       
         
 
         public Form3()
         {
             InitializeComponent();
             SetFullScreen();
+            GlobalData.TextForChoice = "Добро пожаловать в смулятор пенсионера!";
         }
 
         private void SetFullScreen()
@@ -39,7 +41,7 @@ namespace pensioner2
 
         private void Form3_Load(object sender, EventArgs e)
         {
-
+            richTextBox1.Text = GlobalData.TextForChoice;
         }
         private void pictureBox7_Click(object sender, EventArgs e)
         {
@@ -79,8 +81,9 @@ namespace pensioner2
                 {
                     // работа с событиями
                     Form2 form2 = new Form2();
-                    form2.Show();
-                    
+                    Form3 form3 = new Form3();
+                    form3.Close();
+                    form2.Show();    
                 }
             }
 
