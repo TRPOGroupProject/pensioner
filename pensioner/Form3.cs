@@ -44,7 +44,7 @@ namespace pensioner2
             connection = new MySqlConnection(connectionString);
             connection.Open();
 
-            // Выполняем SQL-запрос для получения информации из таблицы order
+            //инфа из таблицы order
             string query = $"SELECT * FROM `order` WHERE `order_pen` = {currentNumber}";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
@@ -56,31 +56,29 @@ namespace pensioner2
                 int number = Convert.ToInt32(reader["number"]);
                 int choice = Convert.ToInt32(reader["choice"]);
 
-                // Закрываем первый DataReader
                 reader.Close();
 
                 if (choice == 0)
                 {
-                    // Выполняем SQL-запрос для получения информации из таблицы events
+                    //информация из таблицы events
                     string eventsQuery = $"SELECT `text_pen` FROM `events` WHERE `number` = {number}";
                     MySqlCommand eventsCommand = new MySqlCommand(eventsQuery, connection);
                     object result = eventsCommand.ExecuteScalar();
 
                     if (result != null)
                     {
-                        // Записываем значение text_pen в richTextBox1
+                        //текст
                         richTextBox1.Text = result.ToString();
                     }
                 }
                 else if (choice == 1)
                 {
-                    // Открываем Form2
+                    // работа с событиями
                     Form2 form2 = new Form2();
                     form2.Show();
                 }
             }
 
-            // Закрываем соединение
             connection.Close();
         }
     }
