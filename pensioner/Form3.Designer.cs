@@ -105,7 +105,9 @@
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form3";
+            this.Activated += new System.EventHandler(this.Form3_Activated);
             this.Load += new System.EventHandler(this.Form3_Load);
+            this.Enter += new System.EventHandler(this.Form3_Enter);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();

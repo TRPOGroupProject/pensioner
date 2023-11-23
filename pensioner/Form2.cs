@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using pensioner;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 
 namespace pensioner2
@@ -90,54 +91,66 @@ namespace pensioner2
             }
         }
 
+        private int UsersChoice(int lastDigit)
+        {
+            switch (lastDigit)
+            {
+                case 1:
+                    return choice1;
+                   
+                case 2:
+                    return  choice2;
+             
+                case 3:
+                    return choice3;
+  
+                case 4:
+                    return choice4;
+                 
+                default:
+                    return -1;
+            }
+        }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (sender is PictureBox pictureBox)
             {
                 int lastDigit = GetLastDigitFromPictureBoxName(pictureBox);
-                int chosen = -1;
-
-                switch (lastDigit)
+                int chosen = UsersChoice(lastDigit);
+                if (chosen == 0) 
                 {
-                    case 1:
-                        chosen = choice1;
-                        break;
-                    case 2:
-                        chosen = choice2;
-                        break;
-                    case 3:
-                        chosen = choice3;
-                        break;
-                    case 4:
-                        chosen = choice4;
-                        break;
-                    default:
-                        break;
+                    GlobalData.PointsOfHappiness -= 10;
                 }
-
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                else
                 {
-                    try
+
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
-                        connection.Open();
-
-                        string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
-                        MySqlCommand command = new MySqlCommand(query, connection);
-                        command.Parameters.AddWithValue("@chosenNumber", chosen);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        try
                         {
-                            if (reader.Read())
+                            connection.Open();
+
+                            string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
+                            MySqlCommand command = new MySqlCommand(query, connection);
+                            command.Parameters.AddWithValue("@chosenNumber", chosen);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
                             {
-                                string textPen = reader["text_pen"].ToString();
-                                GlobalData.TextForChoice = textPen;
-                                this.Close();   
+                                if (reader.Read())
+                                {
+                                    string textPen = reader["text_pen"].ToString();
+                                    GlobalData.TextForChoice = textPen;
+                                    GlobalData.PointsOfHappiness += 5;
+                                    
+                                    this.Close();
+                                }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Ошибка при выполнении запроса: " + ex.Message);
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Ошибка при выполнении запроса: " + ex.Message);
+                        }
                     }
                 }
             }

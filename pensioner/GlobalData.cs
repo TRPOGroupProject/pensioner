@@ -10,5 +10,7 @@ namespace pensioner
     {
         public static int CurrentNumber { get; set; }
         public static string TextForChoice { get; set; }
+
+        public static int PointsOfHappiness { get; set; } = 70;
     }
 }

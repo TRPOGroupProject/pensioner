@@ -89,6 +89,15 @@ namespace pensioner2
 
             connection.Close();
         }
+
+        private void Form3_Enter(object sender, EventArgs e)
+        {
+        }
+
+        private void Form3_Activated(object sender, EventArgs e)
+        {
+            richTextBox1.Text = GlobalData.TextForChoice;
+        }
     }
 
 
