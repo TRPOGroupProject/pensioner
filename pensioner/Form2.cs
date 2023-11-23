@@ -21,6 +21,7 @@ namespace pensioner2
         int choice3;
         int choice4;
 
+
         private string connectionString = "server=localhost;port=3306;username=root;password=root;database=pensioner";
 
         public Form2()
@@ -64,30 +65,54 @@ namespace pensioner2
 
             if (dailyEventsReader.Read())
             {
-
-                // Чтение значений полей
                 string var1 = dailyEventsReader["var1"].ToString();
                 string var2 = dailyEventsReader["var2"].ToString();
                 string var3 = dailyEventsReader["var3"].ToString();
                 string var4 = dailyEventsReader["var4"].ToString();
-
-
-
-                // Заполнение значений в соответствующих элементах управления
 
                 label1.Text = var1;
                 label2.Text = var2;
                 label3.Text = var3;
                 label4.Text = var4;
 
-                // Запись значений в глобальные переменные
                 choice1 = int.Parse(dailyEventsReader["var1event"].ToString());
                 choice2 = int.Parse(dailyEventsReader["var2event"].ToString());
                 choice3 = int.Parse(dailyEventsReader["var3event"].ToString());
                 choice4 = int.Parse(dailyEventsReader["var4event"].ToString());
 
                 dailyEventsReader.Close();
+            }
+        }
 
+
+        void Daily_Events(int chosen)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@chosenNumber", chosen);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string textPen = reader["text_pen"].ToString();
+                            GlobalData.TextForChoice = textPen;
+                            GlobalData.PointsOfHappiness += 5;
+
+                            this.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при выполнении запроса: " + ex.Message);
+                }
             }
         }
 
@@ -117,44 +142,65 @@ namespace pensioner2
             {
                 int lastDigit = GetLastDigitFromPictureBoxName(pictureBox);
                 int chosen = UsersChoice(lastDigit);
-                if (chosen == 0) 
+                if (chosen == 0||(chosen <= 4 && chosen >= 1)) 
                 {
                     GlobalData.PointsOfHappiness -= 10;
+                    
+                    if (chosen <= 4 && chosen >= 1)
+                    {
+                        GlobalData.HomeRoom = chosen;
+                        HomeWalking();
+                    }
+                    HomeWalking();
                 }
                 else
                 {
+                    GlobalData.PointsOfHappiness += 5;
+                    Daily_Events(chosen);
+                }
+            }
+        }
 
+        void HomeWalking()
+        {
+            int homeRoom = GlobalData.HomeRoom; // Значение из GlobalData.HomeRoom
 
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM home WHERE locations = @HomeRoom";
+                // MessageBox.Show(Convert.ToString(homeRoom));
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@HomeRoom", GlobalData.HomeRoom);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        try
+                        if (reader.Read())
                         {
-                            connection.Open();
+                            // Получение значений полей и загрузка их в метки (labels)
+                            string var1 = reader.GetString("var1");
+                            string var2 = reader.GetString("var2");
+                            string var3 = reader.GetString("var3");
+                            string var4 = reader.GetString("var4");
 
-                            string query = "SELECT text_pen FROM events WHERE number = @chosenNumber";
-                            MySqlCommand command = new MySqlCommand(query, connection);
-                            command.Parameters.AddWithValue("@chosenNumber", chosen);
+                            label1.Text = var1;
+                            label2.Text = var2;
+                            label3.Text = var3;
+                            label4.Text = var4;
 
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                if (reader.Read())
-                                {
-                                    string textPen = reader["text_pen"].ToString();
-                                    GlobalData.TextForChoice = textPen;
-                                    GlobalData.PointsOfHappiness += 5;
-                                    
-                                    this.Close();
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Ошибка при выполнении запроса: " + ex.Message);
-                        }
+                            // Загрузка значений полей в глобальные целочисленные переменные (choi1, choi2, choi3, choi4)
+                            choice1 = reader.GetInt32("var1event");
+                            choice2 = reader.GetInt32("var2event");
+                            choice3 = reader.GetInt32("var3event");
+                            choice4 = reader.GetInt32("var4event");
+                        }          
                     }
                 }
             }
         }
+           
 
         int GetLastDigitFromPictureBoxName(PictureBox pictureB)
         {
