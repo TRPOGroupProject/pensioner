@@ -47,15 +47,57 @@ namespace pensioner2
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            richTextBox1.Text = GlobalData.TextForChoice;
-        }
+           /* using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
 
+                    string sqlQuery = "SELECT number, points FROM гы";
+                    MySqlCommand command = new MySqlCommand(sqlQuery, connection);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int currentNumber = reader.GetInt32("number");
+                            GlobalData.PointsOfHappiness = reader.GetInt32("points");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Обработка ошибок подключения или выполнения запроса
+                    Console.WriteLine("Ошибка: " + ex.Message);
+                }
+            }*/
+        }
+    
+
+        void restart(int number, int happiness)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open(); 
+
+                string query = "UPDATE гы SET number = @number, points = @happiness";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+              
+                    command.Parameters.AddWithValue("@number", number);
+                    command.Parameters.AddWithValue("@happiness", happiness);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         void EndGame()
         {
             int pointsOfHappiness = GlobalData.PointsOfHappiness;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
+                restart(1, 70);
                 connection.Open();
 
                 if (GlobalData.Batery)
