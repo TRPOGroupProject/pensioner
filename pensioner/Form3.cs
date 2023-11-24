@@ -56,75 +56,67 @@ namespace pensioner2
             {
                 connection.Open();
 
-                string query;
-                MySqlCommand command;
-                MySqlDataReader reader;
-                if(GlobalData.Batery)
+                if (GlobalData.Batery)
                 {
-                    
+                    DisplayEvent(connection, 800);
                 }
-                else if (pointsOfHappiness < 50) //соединить две концовки
+                else if (pointsOfHappiness < 50)
                 {
-                    string eventsQuery = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = 711";
-                    MySqlCommand eventsCommand = new MySqlCommand(eventsQuery, connection);
-
-                    using (MySqlDataReader dataReader = eventsCommand.ExecuteReader())
-                    {
-                        if (dataReader.Read())
-                        {
-                            richTextBox1.Text = dataReader["text_pen"].ToString();
-                            string imageName = dataReader["pictures"].ToString();
-
-                            ImageSet(imageName);
-                        }
-                    }
+                    DisplayEvent(connection, 711);
                 }
                 else if (pointsOfHappiness >= 50 && pointsOfHappiness <= 75)
                 {
-                    string eventsQuery = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = 712";
-                    MySqlCommand eventsCommand = new MySqlCommand(eventsQuery, connection);
-
-                    using (MySqlDataReader dataReader = eventsCommand.ExecuteReader())
-                    {
-                        if (dataReader.Read())
-                        {
-                            richTextBox1.Text = dataReader["text_pen"].ToString();
-                            string imageName = dataReader["pictures"].ToString();
-
-                            ImageSet(imageName);
-                        }
-                    }
+                    DisplayEvent(connection, 712);
                 }
                 else if (pointsOfHappiness > 75)
                 {
-                    query = "SELECT number FROM end WHERE order_pen = @currentNum";
-                    command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@currentNum", currentNum);
-                    reader = command.ExecuteReader();
-
-                    if (reader.Read())
+                    string number = GetEndEventNumber(connection);
+                    if (!string.IsNullOrEmpty(number))
                     {
-                        string number = reader["number"].ToString();
-                        reader.Close();
-
-                        query = "SELECT text_pen FROM events WHERE number = @number";
-                        command = new MySqlCommand(query, connection);
-                        command.Parameters.AddWithValue("@number", number);
-                        reader = command.ExecuteReader();
-
-                        if (reader.Read())
-                        {
-                            string textPen = reader["text_pen"].ToString();
-                            richTextBox1.Text = textPen;
-                        }
+                        DisplayEvent(connection, int.Parse(number));
                         currentNum++;
                     }
-
-                    reader.Close();
                 }
 
                 connection.Close();
             }
+        }
+
+        void DisplayEvent(MySqlConnection connection, int eventNumber)
+        {
+            string query = $"SELECT `text_pen`, `pictures` FROM `events` WHERE `number` = @eventNumber";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@eventNumber", eventNumber);
+
+            using (MySqlDataReader dataReader = command.ExecuteReader())
+            {
+                if (dataReader.Read())
+                {
+                    string textPen = dataReader["text_pen"].ToString();
+                    string imageName = dataReader["pictures"].ToString();
+
+                    ImageSet(imageName);
+                    richTextBox1.Text = textPen;
+                }
+            }
+        }
+
+        string GetEndEventNumber(MySqlConnection connection)
+        {
+            string query = "SELECT number FROM end WHERE order_pen = @currentNum";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@currentNum", currentNum);
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    string number = reader["number"].ToString();
+                    return number;
+                }
+            }
+
+            return null;
         }
 
         void ImageSet(string imageName)
@@ -197,11 +189,6 @@ namespace pensioner2
             richTextBox1.Text = GlobalData.TextForChoice;
             ImageSet(GlobalData.Picture);
             if (GlobalData.Picture == "батареи") GlobalData.Batery = true;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

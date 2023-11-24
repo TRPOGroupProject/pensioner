@@ -171,7 +171,7 @@ namespace pensioner2
             }
         }
 
-        void HomeWalking() //хождение по дому
+        void HomeWalking() //перемещение по дому
         {
             int homeRoom = GlobalData.HomeRoom;
 
@@ -193,6 +193,13 @@ namespace pensioner2
                             label2.Text = reader.GetString("var2");
                             label3.Text = reader.GetString("var3");
                             label4.Text = reader.GetString("var4");
+                            if (label3.Text == "No")
+                                label3.Visible = false;
+                            else label3.Visible = true;
+
+                            if(label4.Text=="No")
+                                label4.Visible = false;
+                            else label4.Visible = true;
 
                             choice1 = reader.GetInt32("var1event");
                             choice2 = reader.GetInt32("var2event");
