@@ -45,6 +45,8 @@ namespace pensioner2
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             this.Close();
+            Form3 form3 = new Form3();
+            form3.Close();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -224,6 +226,20 @@ namespace pensioner2
             {
                 return -1;
             }
+        }
+
+        private void Form2_Activated(object sender, EventArgs e)
+        {
+            Font currentFont = richTextBox1.Font;
+            float newSize = GlobalData.FontText;
+            Font newFont = new Font(currentFont.FontFamily, newSize, currentFont.Style);
+            richTextBox1.Font = newFont;
+        }
+
+        private void pictureBox2_Click_1(object sender, EventArgs e)
+        {
+            Form4 form4=new Form4();
+            form4.ShowDialog();
         }
     }
 }

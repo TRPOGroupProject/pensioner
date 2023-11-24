@@ -67,9 +67,11 @@
             // cho3
             // 
             this.cho3.BackColor = System.Drawing.Color.Transparent;
-            this.cho3.Location = new System.Drawing.Point(33, 849);
+            this.cho3.Image = global::pensioner.Properties.Resources.действие_кнопка;
+            this.cho3.Location = new System.Drawing.Point(33, 840);
             this.cho3.Name = "cho3";
-            this.cho3.Size = new System.Drawing.Size(964, 77);
+            this.cho3.Size = new System.Drawing.Size(981, 101);
+            this.cho3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.cho3.TabIndex = 2;
             this.cho3.TabStop = false;
             // 
@@ -93,27 +95,33 @@
             // cho4
             // 
             this.cho4.BackColor = System.Drawing.Color.Transparent;
-            this.cho4.Location = new System.Drawing.Point(33, 956);
+            this.cho4.Image = global::pensioner.Properties.Resources.действие_кнопка;
+            this.cho4.Location = new System.Drawing.Point(33, 942);
             this.cho4.Name = "cho4";
-            this.cho4.Size = new System.Drawing.Size(964, 77);
+            this.cho4.Size = new System.Drawing.Size(981, 101);
+            this.cho4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.cho4.TabIndex = 6;
             this.cho4.TabStop = false;
             // 
             // cho2
             // 
             this.cho2.BackColor = System.Drawing.Color.Transparent;
+            this.cho2.Image = global::pensioner.Properties.Resources.действие_кнопка;
             this.cho2.Location = new System.Drawing.Point(33, 743);
             this.cho2.Name = "cho2";
-            this.cho2.Size = new System.Drawing.Size(964, 77);
+            this.cho2.Size = new System.Drawing.Size(981, 101);
+            this.cho2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.cho2.TabIndex = 3;
             this.cho2.TabStop = false;
             // 
             // cho1
             // 
             this.cho1.BackColor = System.Drawing.Color.Transparent;
+            this.cho1.Image = global::pensioner.Properties.Resources.действие_кнопка;
             this.cho1.Location = new System.Drawing.Point(33, 644);
             this.cho1.Name = "cho1";
-            this.cho1.Size = new System.Drawing.Size(964, 77);
+            this.cho1.Size = new System.Drawing.Size(981, 101);
+            this.cho1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.cho1.TabIndex = 1;
             this.cho1.TabStop = false;
             this.cho1.Click += new System.EventHandler(this.pictureBox2_Click);
@@ -121,10 +129,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackColor = System.Drawing.Color.LightGray;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label1.Location = new System.Drawing.Point(59, 661);
+            this.label1.Location = new System.Drawing.Point(59, 672);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 46);
             this.label1.TabIndex = 0;
@@ -133,10 +141,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.BackColor = System.Drawing.Color.LightGray;
             this.label2.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label2.Location = new System.Drawing.Point(59, 763);
+            this.label2.Location = new System.Drawing.Point(59, 771);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(113, 46);
             this.label2.TabIndex = 7;
@@ -145,10 +153,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.BackColor = System.Drawing.Color.LightGray;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label3.Location = new System.Drawing.Point(59, 868);
+            this.label3.Location = new System.Drawing.Point(59, 861);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 46);
             this.label3.TabIndex = 8;
@@ -157,10 +165,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.BackColor = System.Drawing.Color.LightGray;
             this.label4.Font = new System.Drawing.Font("Comic Sans MS", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label4.Location = new System.Drawing.Point(59, 977);
+            this.label4.Location = new System.Drawing.Point(59, 967);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(113, 46);
             this.label4.TabIndex = 9;
@@ -196,6 +204,7 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 17;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click_1);
             // 
             // Form2
             // 
@@ -222,6 +231,7 @@
             this.Controls.Add(this.pictureBox1);
             this.ForeColor = System.Drawing.Color.Transparent;
             this.Name = "Form2";
+            this.Activated += new System.EventHandler(this.Form2_Activated);
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cho3)).EndInit();

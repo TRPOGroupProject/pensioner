@@ -41,6 +41,8 @@ namespace pensioner2
         private void pictureBox6_Click(object sender, EventArgs e)
         {
             this.Close();
+            Form2 form2 = new Form2();
+            form2.Close();
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -189,6 +191,16 @@ namespace pensioner2
             richTextBox1.Text = GlobalData.TextForChoice;
             ImageSet(GlobalData.Picture);
             if (GlobalData.Picture == "батареи") GlobalData.Batery = true;
+            Font currentFont = richTextBox1.Font;
+            float newSize = GlobalData.FontText;
+            Font newFont = new Font(currentFont.FontFamily, newSize, currentFont.Style);
+            richTextBox1.Font = newFont;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.ShowDialog();
         }
     }
 }
