@@ -47,7 +47,7 @@ namespace pensioner2
 
         private void Form3_Load(object sender, EventArgs e)
         {
-           /* using (MySqlConnection connection = new MySqlConnection(connectionString))
+           using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
@@ -60,8 +60,9 @@ namespace pensioner2
                     {
                         if (reader.Read())
                         {
-                            int currentNumber = reader.GetInt32("number");
-                            GlobalData.PointsOfHappiness = reader.GetInt32("points");
+                            currentNumber = reader.GetInt32("number");
+                            GlobalData.PointsOfHappiness = reader.GetInt32("points")+1;
+                           
                         }
                     }
                 }
@@ -70,7 +71,7 @@ namespace pensioner2
                     // Обработка ошибок подключения или выполнения запроса
                     Console.WriteLine("Ошибка: " + ex.Message);
                 }
-            }*/
+            }
         }
     
 
@@ -232,6 +233,7 @@ namespace pensioner2
                         }
                         else if (choice == 1)
                         {
+                            restart(currentNumber, GlobalData.PointsOfHappiness);
                             // работа с событиями
                             Form2 form2 = new Form2();
                             Form3 form3 = new Form3();
