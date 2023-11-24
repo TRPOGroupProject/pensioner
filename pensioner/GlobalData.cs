@@ -16,6 +16,7 @@ namespace pensioner
         public static string Picture { get; set; } = "Menu";
         public static bool Batery { get; set;} = false;
         public static int FontText { get; set; } = 20;
+        public static bool End { get; set;}=false;
 
     }
     

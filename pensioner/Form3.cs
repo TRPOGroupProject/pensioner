@@ -103,14 +103,19 @@ namespace pensioner2
                 if (GlobalData.Batery)
                 {
                     DisplayEvent(connection, 800);
+                    GlobalData.End = true;
+                 
                 }
                 else if (pointsOfHappiness < 50)
                 {
                     DisplayEvent(connection, 711);
+                    GlobalData.End = true;
+
                 }
                 else if (pointsOfHappiness >= 50 && pointsOfHappiness <= 75)
                 {
                     DisplayEvent(connection, 712);
+                    GlobalData.End = true;
                 }
                 else if (pointsOfHappiness > 75)
                 {
@@ -120,6 +125,9 @@ namespace pensioner2
                         DisplayEvent(connection, int.Parse(number));
                         currentNum++;
                     }
+                    else
+                        GlobalData.End = true;
+
                 }
 
                 connection.Close();
@@ -169,12 +177,20 @@ namespace pensioner2
             this.BackgroundImage = System.Drawing.Image.FromFile(Path.Combine(directoryPath, imageName + ".png"));
         }
 
+        void End()
+        {
+            GlobalData.End = false;
+            this.Close();
+        }
 
         private void pictureBox7_Click(object sender, EventArgs e)
         {
             if (GlobalData.CurrentNumber == 630||GlobalData.Batery)
             {
-                EndGame();
+                if (GlobalData.End)
+                    End();
+                else
+                    EndGame();
             }
             else
             {
